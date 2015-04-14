@@ -1,0 +1,64 @@
+= Importing Chicago Crime Dataset into Neo4j
+
+* Download the link:https://data.cityofchicago.org/Public-Safety/Crimes-2001-to-present/ijzp-q8t2[Chicago crime data set]
+* Set a system variable containing the path to the data set. e.g.
+
+```
+export CSV_FILE=Crimes_-_2001_to_present.csv
+```
+
+* Download a link:https://spark.apache.org/downloads.html[pre-installed Spark distribution] into this folder.
+The `create_files.sh` script assumes the use of the link:http://www.apache.org/dyn/closer.cgi/spark/spark-1.1.0/spark-1.1.0-bin-hadoop1.tgz[Sep 11 2014 release pre built for Hadoop 1.X]
+* Unpack Spark
+
+```
+tar -xvf spark-1.1.0-bin-hadoop1.tgz
+```
+
+* Generate the CSV files that Neo4j import will use:
+
+```
+./create-files
+```
+
+You should see the following at the beginning of the output:
+
+
+```
+$ ./create_files.sh
+Spark assembly has been built with Hive, including Datanucleus jars on classpath
+Using /Users/markneedham/projects/neo4j-spark-chicago/Crimes_-_2001_to_present.csv
+...
+```
+
+The following files will be generated:
+
+```
+$ ls -alh /tmp/*.csv
+-rwxrwxrwx  1 markneedham  wheel   3.0K 14 Apr 06:48 /tmp/beats.csv
+-rwxrwxrwx  1 markneedham  wheel   217M 14 Apr 06:48 /tmp/crimes.csv
+-rwxrwxrwx  1 markneedham  wheel    84M 14 Apr 06:49 /tmp/crimesBeats.csv
+-rwxrwxrwx  1 markneedham  wheel   120M 14 Apr 06:49 /tmp/crimesPrimaryTypes.csv
+-rwxrwxrwx  1 markneedham  wheel   912B 14 Apr 06:48 /tmp/primaryTypes.csv
+```
+
+==  Using a different version of Spark
+
+If you want to use a different version of Spark you'll need to update the appropriate references in `create_files.sh` and `build.sbt`
+
+== I can't generate the CSV files
+
+If you forget to set the `CSV_FILE` environment variable or set it to a non-existent file you'll see the following error message:
+
+```
+$ ./create_files.sh
+Spark assembly has been built with Hive, including Datanucleus jars on classpath
+Exception in thread "main" java.lang.RuntimeException: Cannot find CSV file [null]
+...
+```
+
+Set the `CSV_FILE` environment variable and you're good to go:
+
+```
+export CSV_FILE=Crimes_-_2001_to_present.csv
+```
