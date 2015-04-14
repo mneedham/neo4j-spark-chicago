@@ -23,7 +23,6 @@ tar -xvf spark-1.1.0-bin-hadoop1.tgz
 
 You should see the following at the beginning of the output:
 
-
 ```
 $ ./create_files.sh
 Spark assembly has been built with Hive, including Datanucleus jars on classpath
@@ -44,17 +43,17 @@ $ ls -alh /tmp/*.csv
 
 * link:http://neo4j.com/download/[Download Neo4j]
 
+* Unpack Neo4j
+
+```
+tar -xvf neo4j-community-2.2.0-unix.tar.gz
+```
+
 * Create a Neo4j graph from the CSV files:
 
 
 ```
-./neo4j-community-2.2.0/bin/neo4j-import \
---into /tmp/my-neo \
---nodes /tmp/crimes.csv \
---nodes /tmp/beats.csv \
---nodes /tmp/primaryTypes.csv \
---relationships /tmp/crimesBeats.csv \
---relationships /tmp/crimesPrimaryTypes.csv
+./import.sh [/path/to/csv/files] [/path/to/neo4j]
 ```
 
 ==  Using a different version of Spark
@@ -76,4 +75,37 @@ Set the `CSV_FILE` environment variable and you're good to go:
 
 ```
 export CSV_FILE=Crimes_-_2001_to_present.csv
+```
+
+== I made some changes to the project and want to build it
+
+If you haven't made any changes to the source code of the project there's no need to build it - a JAR is checked in and referenced in `create_files.sh`.
+You can, however, rebuild the JAR with the following command:
+
+```
+sbt clean package
+```
+
+== I can't build this project
+
+sbt doesn't seem to honour `java_home` so if you're seeing the following error:
+
+```
+2015-04-14 13:57:50,116 INFO  [main] spark.SparkContext (Logging.scala:logInfo(59)) - Job finished: saveAsTextFile at GenerateCSVFiles.scala:51, took 8.292283862 s
+Exception in thread "main" java.lang.UnsupportedClassVersionError: MyFileUtil : Unsupported major.minor version 52.0
+        at java.lang.ClassLoader.defineClass1(Native Method)
+        at java.lang.ClassLoader.defineClass(ClassLoader.java:800)
+        at java.security.SecureClassLoader.defineClass(SecureClassLoader.java:142)
+```
+
+You should set the following environment variable:
+
+```
+export JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64/
+```
+
+And then retry:
+
+```
+PATH=$JAVA_HOME/bin:$PATH sbt clean package
 ```
