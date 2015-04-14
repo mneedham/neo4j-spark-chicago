@@ -7,6 +7,13 @@
 export CSV_FILE=Crimes_-_2001_to_present.csv
 ```
 
+* Build the Spark program using sbt, make sure to use Java 7 
+
+----
+export JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64/
+PATH=$JAVA_HOME/bin:$PATH sbt clean package
+----
+
 * Download a link:https://spark.apache.org/downloads.html[pre-installed Spark distribution] into this folder.
 The `create_files.sh` script assumes the use of the link:http://www.apache.org/dyn/closer.cgi/spark/spark-1.1.0/spark-1.1.0-bin-hadoop1.tgz[Sep 11 2014 release pre built for Hadoop 1.X]
 * Unpack Spark
@@ -48,7 +55,7 @@ $ ls -alh /tmp/*.csv
 
 
 ```
-./neo4j-community-2.2.0/bin/neo4j-import \
+./neo4j-community-2.2.1/bin/neo4j-import \
 --into /tmp/my-neo \
 --nodes /tmp/crimes.csv \
 --nodes /tmp/beats.csv \
@@ -56,6 +63,10 @@ $ ls -alh /tmp/*.csv
 --relationships /tmp/crimesBeats.csv \
 --relationships /tmp/crimesPrimaryTypes.csv
 ```
+
+You can also use the `import.sh` with two parameters, 1. the directory of your csv files and target neo4j database folder and 2. the folder of your neo4j-2.2.x installation, e.g.
+
+./import.sh /data/crimes /data/neo4j-enterprise-2.2.1
 
 ==  Using a different version of Spark
 
