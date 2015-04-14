@@ -10,11 +10,11 @@ export CSV_FILE=Crimes_-_2001_to_present.csv
 ```
 
 * Download a link:https://spark.apache.org/downloads.html[pre-installed Spark distribution] into this folder.
-The `create_files.sh` script assumes the use of the link:http://www.apache.org/dyn/closer.cgi/spark/spark-1.1.0/spark-1.1.0-bin-hadoop1.tgz[Sep 11 2014 release pre built for Hadoop 1.X]
+The `create_files.sh` script assumes the use of the link:http://apache.mirrors.spacedump.net/spark/spark-1.3.0/spark-1.3.0-bin-hadoop1.tgz[1.3.0 release pre built for Hadoop 1.X]
 * Unpack Spark
 
 ```
-tar -xvf spark-1.1.0-bin-hadoop1.tgz
+tar -xvf spark-1.3.0-bin-hadoop1.tgz
 ```
 
 * Generate the CSV files that Neo4j import will use:
