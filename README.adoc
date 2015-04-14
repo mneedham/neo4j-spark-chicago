@@ -42,6 +42,21 @@ $ ls -alh /tmp/*.csv
 -rwxrwxrwx  1 markneedham  wheel   912B 14 Apr 06:48 /tmp/primaryTypes.csv
 ```
 
+* link:http://neo4j.com/download/[Download Neo4j]
+
+* Create a Neo4j graph from the CSV files:
+
+
+```
+./neo4j-community-2.2.0/bin/neo4j-import \
+--into /tmp/my-neo \
+--nodes /tmp/crimes.csv \
+--nodes /tmp/beats.csv \
+--nodes /tmp/primaryTypes.csv \
+--relationships /tmp/crimesBeats.csv \
+--relationships /tmp/crimesPrimaryTypes.csv
+```
+
 ==  Using a different version of Spark
 
 If you want to use a different version of Spark you'll need to update the appropriate references in `create_files.sh` and `build.sbt`
