@@ -38,12 +38,19 @@ object GenerateCSVFiles {
       "id:ID(Beat),:LABEL")
 
     generateFile("/tmp/locations.csv", withoutHeader,
-      columns => Array(columns(7), "Location"),
+      columns => Array("\"" + columns(7) + "\"", "Location"),
       "id:ID(Location)," + ":LABEL")
 
     generateFile("/tmp/crimes.csv", withoutHeader,
       columns => Array(columns(0),"Crime", columns(2), columns(6), columns(1), columns(8), columns(9)),
       "id:ID(Crime),:LABEL,date,description,caseNumber,arrest:Boolean,domestic:Boolean", distinct = false)
+
+    generateFile("/tmp/dates.csv", withoutHeader,
+      columns => {
+        val parts = columns(2).split(" ")(0).split("/")
+        Array(parts.mkString(""), "Date", parts(0), parts(1), parts(2))
+      },
+      "id:ID(Date),:LABEL,month:int,day:int,year:int", distinct = true)
 
     generateFile("/tmp/crimesBeats.csv", withoutHeader,
       columns => Array(columns(0),columns(10).trim(), "ON_BEAT"),
@@ -54,11 +61,20 @@ object GenerateCSVFiles {
       "CRIME_TYPE"), ":START_ID(Crime),:END_ID(CrimeType),:TYPE")
 
     generateFile("/tmp/crimesLocations.csv", withoutHeader,
-      columns => Array(columns(0),columns(10), "ON_BEAT"),
-      ":START_ID(Crime),:END_ID(Location),:COMMITTED")
+      columns => Array(columns(0),"\"" + columns(7) + "\"", "COMMITTED_IN"),
+      ":START_ID(Crime),:END_ID(Location),:TYPE")
+
+    generateFile("/tmp/crimesDates.csv", withoutHeader,
+      columns =>  {
+        val parts = columns(2).split(" ")(0).split("/")
+        Array(columns(0), parts.mkString(""), "ON_DATE")
+      },
+      ":START_ID(Crime),:END_ID(Date),:TYPE")
   }
 
-  def generateFile(file: String, withoutHeader: RDD[String], fn: Array[String] => Array[String], header: String , distinct:Boolean = true, separator: String = ",") = {
+  def generateFile(file: String, withoutHeader: RDD[String],
+                   fn: Array[String] => Array[String], header: String ,
+                   distinct:Boolean = true, separator: String = ",") = {
     FileUtil.fullyDelete(new File(file))
 
     val tmpFile = "/tmp/" + System.currentTimeMillis() + "-" + file
@@ -70,7 +86,8 @@ object GenerateCSVFiles {
       })
     })
 
-    if (distinct) rows.distinct() saveAsTextFile tmpFile else rows.saveAsTextFile(tmpFile)
+    if (distinct) rows.distinct() saveAsTextFile tmpFile
+    else rows.saveAsTextFile(tmpFile)
 
     merge(tmpFile, file, header)
   }
