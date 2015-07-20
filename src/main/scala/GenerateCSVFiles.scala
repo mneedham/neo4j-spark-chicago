@@ -29,42 +29,42 @@ object GenerateCSVFiles {
     val crimeData = sc.textFile(crimeFile).cache()
     val withoutHeader: RDD[String] = dropHeader(crimeData)
 
-    generateFile("/tmp/primaryTypes.csv", withoutHeader,
+    generateFile("tmp/primaryTypes.csv", withoutHeader,
       columns => Array(columns(5).trim(), "CrimeType"),
       "crimeType:ID(CrimeType),:LABEL")
 
-    generateFile("/tmp/beats.csv", withoutHeader,
+    generateFile("tmp/beats.csv", withoutHeader,
       columns => Array(columns(10), "Beat"),
       "id:ID(Beat),:LABEL")
 
-    generateFile("/tmp/locations.csv", withoutHeader,
+    generateFile("tmp/locations.csv", withoutHeader,
       columns => Array("\"" + columns(7) + "\"", "Location"),
       "id:ID(Location)," + ":LABEL")
 
-    generateFile("/tmp/crimes.csv", withoutHeader,
+    generateFile("tmp/crimes.csv", withoutHeader,
       columns => Array(columns(0),"Crime", columns(2), columns(6), columns(1), columns(8), columns(9)),
       "id:ID(Crime),:LABEL,date,description,caseNumber,arrest:Boolean,domestic:Boolean", distinct = false)
 
-    generateFile("/tmp/dates.csv", withoutHeader,
+    generateFile("tmp/dates.csv", withoutHeader,
       columns => {
         val parts = columns(2).split(" ")(0).split("/")
         Array(parts.mkString(""), "Date", parts(0), parts(1), parts(2))
       },
       "id:ID(Date),:LABEL,month:int,day:int,year:int", distinct = true)
 
-    generateFile("/tmp/crimesBeats.csv", withoutHeader,
+    generateFile("tmp/crimesBeats.csv", withoutHeader,
       columns => Array(columns(0),columns(10).trim(), "ON_BEAT"),
       ":START_ID(Crime),:END_ID(Beat),:TYPE")
 
-    generateFile("/tmp/crimesPrimaryTypes.csv", withoutHeader,
+    generateFile("tmp/crimesPrimaryTypes.csv", withoutHeader,
       columns => Array(columns(0),columns(5).trim(),
       "CRIME_TYPE"), ":START_ID(Crime),:END_ID(CrimeType),:TYPE")
 
-    generateFile("/tmp/crimesLocations.csv", withoutHeader,
+    generateFile("tmp/crimesLocations.csv", withoutHeader,
       columns => Array(columns(0),"\"" + columns(7) + "\"", "COMMITTED_IN"),
       ":START_ID(Crime),:END_ID(Location),:TYPE")
 
-    generateFile("/tmp/crimesDates.csv", withoutHeader,
+    generateFile("tmp/crimesDates.csv", withoutHeader,
       columns =>  {
         val parts = columns(2).split(" ")(0).split("/")
         Array(columns(0), parts.mkString(""), "ON_DATE")
@@ -77,7 +77,7 @@ object GenerateCSVFiles {
                    distinct:Boolean = true, separator: String = ",") = {
     FileUtil.fullyDelete(new File(file))
 
-    val tmpFile = "/tmp/" + System.currentTimeMillis() + "-" + file
+    val tmpFile = "tmp/" + System.currentTimeMillis() + "-" + file
     val rows: RDD[String] = withoutHeader.mapPartitions(lines => {
       val parser = new CSVParser(',')
       lines.map(line => {

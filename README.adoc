@@ -35,12 +35,18 @@ Using /Users/markneedham/projects/neo4j-spark-chicago/Crimes_-_2001_to_present.c
 The following files will be generated:
 
 ```
-$ ls -alh /tmp/*.csv
+$ ls -alh tmp/*.csv
 -rwxrwxrwx  1 markneedham  wheel   3.0K 14 Apr 06:48 /tmp/beats.csv
 -rwxrwxrwx  1 markneedham  wheel   217M 14 Apr 06:48 /tmp/crimes.csv
 -rwxrwxrwx  1 markneedham  wheel    84M 14 Apr 06:49 /tmp/crimesBeats.csv
 -rwxrwxrwx  1 markneedham  wheel   120M 14 Apr 06:49 /tmp/crimesPrimaryTypes.csv
 -rwxrwxrwx  1 markneedham  wheel   912B 14 Apr 06:48 /tmp/primaryTypes.csv
+```
+
+Now let's clean up the CSV files to get rid of empty columns:
+
+```
+./clean.sh
 ```
 
 * link:http://neo4j.com/download/[Download Neo4j]
