@@ -5,10 +5,10 @@ RETURN row
 LIMIT 1
 
 // check for the number of crimes of a certain type?
-MATCH (location:Location {name: "RESTAURANT"})<-[:COMMITTED_IN]-(crime)
+MATCH (location:Location {id: "RESTAURANT"})<-[:COMMITTED_IN]-(crime)
 RETURN COUNT(*)
 
-MATCH (location:Location {name: "RESTAURANT"})<-[c:COMMITTED_IN]-(crime)
+MATCH (location:Location {id: "RESTAURANT"})<-[c:COMMITTED_IN]-(crime)
 RETURN *
 LIMIT 10
 

@@ -1,0 +1,143 @@
+{
+    "categories": [
+        {
+            "name": "Index Crime", 
+            "sub_categories": [
+                {
+                    "code": "01A", 
+                    "description": "Homicide 1st & 2nd Degree"
+                }, 
+                {
+                    "code": "02", 
+                    "description": "Criminal Sexual Assault"
+                }, 
+                {
+                    "code": "03", 
+                    "description": "Robbery"
+                }, 
+                {
+                    "code": "04A", 
+                    "description": "Aggravated Assault"
+                }, 
+                {
+                    "code": "04B", 
+                    "description": "Aggravated Battery"
+                }, 
+                {
+                    "code": "05", 
+                    "description": "Burglary"
+                }, 
+                {
+                    "code": "06", 
+                    "description": "Larceny"
+                }, 
+                {
+                    "code": "07", 
+                    "description": "Motor Vehicle Theft"
+                }, 
+                {
+                    "code": "09", 
+                    "description": "Arson"
+                }
+            ]
+        }, 
+        {
+            "name": "Non-Index Crime", 
+            "sub_categories": [
+                {
+                    "code": "01B", 
+                    "description": "Involuntary Manslaughter"
+                }, 
+                {
+                    "code": "08A", 
+                    "description": "Simple Assault"
+                }, 
+                {
+                    "code": "08B", 
+                    "description": "Simple Battery"
+                }, 
+                {
+                    "code": "10", 
+                    "description": "Forgery & Counterfeiting"
+                }, 
+                {
+                    "code": "11", 
+                    "description": "Fraud"
+                }, 
+                {
+                    "code": "12", 
+                    "description": "Embezzlement"
+                }, 
+                {
+                    "code": "13", 
+                    "description": "Stolen Property"
+                }, 
+                {
+                    "code": "14", 
+                    "description": "Vandalism"
+                }, 
+                {
+                    "code": "15", 
+                    "description": "Weapons Violation"
+                }, 
+                {
+                    "code": "16", 
+                    "description": "Prostitution"
+                }, 
+                {
+                    "code": "17", 
+                    "description": "Criminal Sexual Abuse"
+                }, 
+                {
+                    "code": "18", 
+                    "description": "Drug Abuse"
+                }, 
+                {
+                    "code": "19", 
+                    "description": "Gambling"
+                }, 
+                {
+                    "code": "20", 
+                    "description": "Offenses Against Family"
+                }, 
+                {
+                    "code": "22", 
+                    "description": "Liquor License"
+                }, 
+                {
+                    "code": "24", 
+                    "description": "Disorderly Conduct"
+                }, 
+                {
+                    "code": "26", 
+                    "description": "Misc Non-Index Offense"
+                }
+            ]
+        }, 
+        {
+            "name": "Violent Crime", 
+            "sub_categories": [
+                {
+                    "code": "01A", 
+                    "description": "Homicide 1st & 2nd Degree"
+                }, 
+                {
+                    "code": "02", 
+                    "description": "Criminal Sexual Assault"
+                }, 
+                {
+                    "code": "03", 
+                    "description": "Robbery"
+                }, 
+                {
+                    "code": "04A", 
+                    "description": "Aggravated Assault"
+                }, 
+                {
+                    "code": "04B", 
+                    "description": "Aggravated Battery"
+                }
+            ]
+        }
+    ]
+}
