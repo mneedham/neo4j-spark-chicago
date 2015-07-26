@@ -17,5 +17,4 @@ ON CREATE SET sc.description = subCategory.description
 MERGE (c)-[:CHILD]->(sc)
 """
 
-# Send Cypher query.
 print graph.cypher.execute(query, json = json)

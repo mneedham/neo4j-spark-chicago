@@ -7,11 +7,12 @@ CREATE INDEX ON :Location(name);
 // crimes
 using periodic commit
 load csv with headers from "file:///Users/markneedham/projects/neo4j-spark-chicago/Crimes_-_2001_to_present.csv" AS row
-MERGE (crime:Crime {id: row.ID,
-                    description: row.Description,
-                    caseNumber: row.`Case Number`,
-                    arrest: row.Arrest,
-                    domestic: row.Domestic});
+MERGE (crime:Crime {id: row.ID})
+ON CREATE SET
+   crime.description = row.Description,
+   crime.caseNumber = row.`Case Number`,
+   crime.arrest = row.Arrest,
+   crime.domestic = row.Domestic;
 
 // crime types
 using periodic commit

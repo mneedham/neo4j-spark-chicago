@@ -7,7 +7,7 @@ $NEO/bin/neo4j-import \
 --nodes $DATA/crimes.csv \
 --nodes $DATA/beats.csv \
 --nodes $DATA/primaryTypes.csv \
---nodes $DATA/locations.csv \
+--nodes $DATA/locationsCleaned.csv \
 --relationships $DATA/crimesBeats.csv \
 --relationships $DATA/crimesPrimaryTypes.csv \
 --relationships $DATA/crimesLocationsCleaned.csv \

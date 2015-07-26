@@ -1,6 +1,7 @@
 // first row of the file
 LOAD CSV WITH HEADERS FROM
-"file:///Users/markneedham/projects/neo4j-spark-chicago/Crimes_-_2001_to_present.csv" AS row
+"file:///Users/markneedham/projects/neo4j-spark-chicago/Crimes_-_2001_to_present.csv"
+AS row
 RETURN row
 LIMIT 1
 
