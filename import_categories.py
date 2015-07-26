@@ -1,7 +1,7 @@
 import json
 from py2neo import Graph, authenticate
 
-authenticate("localhost:7474", "neo4j", "foobar")
+authenticate("localhost:7474", "neo4j", "neo")
 graph = Graph()
 
 with open('categories.json') as data_file:
