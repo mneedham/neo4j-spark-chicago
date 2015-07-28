@@ -42,8 +42,8 @@ object GenerateCSVFiles {
       "id:ID(Location)," + ":LABEL")
 
     generateFile("tmp/crimes.csv", withoutHeader,
-      columns => Array(columns(0),"Crime", columns(2), columns(6), columns(1), columns(8), columns(9)),
-      "id:ID(Crime),:LABEL,date,description,caseNumber,arrest:Boolean,domestic:Boolean", distinct = false)
+      columns => Array(columns(0),"Crime", columns(2), columns(6), columns(1), columns(8), columns(9), columns(14)),
+      "id:ID(Crime),:LABEL,date,description,caseNumber,arrest:Boolean,domestic:Boolean,fbiCode", distinct = false)
 
     generateFile("tmp/dates.csv", withoutHeader,
       columns => {

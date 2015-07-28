@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import json
 import csv
 import itertools
@@ -18,25 +19,25 @@ crimes = new_crimes()
 # update this with the full query
 query = """
 MERGE (crime:Crime {id: {params}.`ID`})
+ON CREATE SET
+   crime.description = {params}.Description,
+   crime.caseNumber  = {params}.`Case Number`,
+   crime.arrest      = {params}.Arrest,
+   crime.domestic    = {params}.Domestic,
+   crime.fbiCode     = {params}.`FBI Code`
+
+WITH crime
+MATCH (location:Location {id: {params}.`Location Description`})
+MERGE (crime)-[:COMMITTED_IN]->(location)
+
+WITH crime
+MATCH (beat:Beat {id: {params}.Beat})
+MERGE (crime)-[:ON_BEAT]->(beat)
 """
 
-# loop through each crime and commit a transaction for each one
-# next we can batch these and see if it makes any difference
-#  how to measure?
-for crime in crimes:
-    tx = graph.cypher.begin()
+tx = graph.cypher.begin()
+for crime in itertools.islice(crimes, 0, 10):
+    print(crime)
     tx.append(query, {"params" : crime })
-    tx.commit()
-
-
-# query = """
-# WITH {json} AS document
-# UNWIND document.categories AS category
-# UNWIND category.sub_categories AS subCategory
-# MERGE (c:CrimeCategory {name: category.name})
-# MERGE (sc:SubCategory {code: subCategory.code})
-# ON CREATE SET sc.description = subCategory.description
-# MERGE (c)-[:CHILD]->(sc)
-# """
-#
-# print graph.cypher.execute(query, json = json)
+    tx.process()
+tx.commit()
