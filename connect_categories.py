@@ -5,14 +5,6 @@ from py2neo import Graph, authenticate
 authenticate("localhost:7474", "neo4j", "neo")
 graph = Graph()
 
-# query = """
-# MATCH (crime:Crime)
-# WITH crime SKIP {skip} LIMIT {limit}
-# MATCH (subCat:SubCategory {code: crime.fbiCode})
-# MERGE (crime)-[:CATEGORY]->(subCat)
-# RETURN COUNT(*) AS crimesProcessed
-# """
-
 query = """
 MATCH (crime:Crime)
 WITH crime SKIP {skip} LIMIT {limit}
