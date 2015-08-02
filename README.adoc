@@ -54,7 +54,7 @@ Now let's clean up the CSV files to get rid of empty columns:
 * Unpack Neo4j
 
 ```
-tar -xvf neo4j-community-2.2.0-unix.tar.gz
+tar -xvf neo4j-enterprise-2.2.3-unix.tar.gz
 ```
 
 * Create a Neo4j graph from the CSV files:

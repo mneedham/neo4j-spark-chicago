@@ -8,6 +8,14 @@ from py2neo import Graph, authenticate
 authenticate("localhost:7474", "neo4j", "neo")
 graph = Graph()
 
+def grouper(n, iterable):
+    it = iter(iterable)
+    while True:
+       chunk = list(itertools.islice(it, n))
+       if not chunk:
+           return
+       yield chunk
+
 def new_crimes():
     with open('diff.csv') as file:
         reader = csv.DictReader(file, delimiter = ",")
@@ -16,7 +24,6 @@ def new_crimes():
 
 crimes = new_crimes()
 
-# update this with the full query
 query = """
 MERGE (crime:Crime {id: {params}.`ID`})
 ON CREATE SET
@@ -28,16 +35,18 @@ ON CREATE SET
 
 WITH crime
 MATCH (location:Location {id: {params}.`Location Description`})
-MERGE (crime)-[:COMMITTED_IN]->(location)
+CREATE UNIQUE (crime)-[:COMMITTED_IN]->(location)
 
 WITH crime
 MATCH (beat:Beat {id: {params}.Beat})
 MERGE (crime)-[:ON_BEAT]->(beat)
 """
 
-tx = graph.cypher.begin()
-for crime in itertools.islice(crimes, 0, 10):
-    print(crime)
-    tx.append(query, {"params" : crime })
-    tx.process()
-tx.commit()
+batch_size = 100
+for chunk in grouper(batch_size, crimes):
+    tx = graph.cypher.begin()
+    for crime in chunk:
+        tx.append(query, {"params" : crime })
+        tx.process()
+    tx.commit()
+    print "commit"

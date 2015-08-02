@@ -30,7 +30,11 @@ while True:
     print("Processing skip {0}, limit {1} ".format(skip, limit))
     result = graph.cypher.execute(query, skip = skip, limit = limit)
     crimes_processed = result[0]["crimesProcessed"]
-    print("Crimes processed: {0},  Time: {1}".format(crimes_processed, (datetime.datetime.now() - start).seconds))
+
+    diff = datetime.datetime.now() - start
+    elapsed_ms = (diff.days * 86400000) + (diff.seconds * 1000) + (diff.microseconds / 1000)
+
+    print("Crimes processed: {0},  Time: {1}".format(crimes_processed, elapsed_ms))
 
     if crimes_processed == 0:
         break

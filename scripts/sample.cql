@@ -13,7 +13,7 @@ MERGE (crime:Crime {id: row.ID,
                     caseNumber: row.`Case Number`,
                     arrest: row.Arrest,
                     domestic: row.Domestic});
-
+                    
 // crime types
 using periodic commit
 load csv with headers from "file:///Users/markneedham/projects/neo4j-spark-chicago/Crimes_-_2001_to_present.csv" AS row
