@@ -1,0 +1,8 @@
+= To Do
+
+* Hook up crime types using FBI code - http://gis.chicagopolice.org/clearmap_crime_sums/crime_types.html
+* Update CSV import - https://github.com/databricks/spark-csv
+* Address hierarchy
+* http://stedolan.github.io/jq/tutorial/
+* http://stedolan.github.io/jq/manual/#Basicfilters
+* diff in spark - http://stackoverflow.com/questions/27782923/compare-data-in-two-rdd-in-spark

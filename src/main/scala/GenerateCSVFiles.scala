@@ -11,7 +11,8 @@ import org.apache.spark.sql.{SQLContext, Row, DataFrame}
 
 import scala.RuntimeException
 
-case class CrimeType(primaryType: String, label:String)
+//case class CrimeType(primaryType: String, label:String)
+case class CrimeType(primaryType: String)
 case class Beat(id: String, label:String)
 
 
@@ -26,15 +27,16 @@ object GenerateCSVFiles {
   def main(args: Array[String]) {
     var crimeFile = args(0)
 
-    if(crimeFile == null || !new File(crimeFile).exists()) {
-      throw new RuntimeException("Cannot find CSV file [" + crimeFile + "]")
-    }
+//    if(crimeFile == null || !new File(crimeFile).exists()) {
+//      throw new RuntimeException("Cannot find CSV file [" + crimeFile + "]")
+//    }
 
     println("Using %s".format(crimeFile))
 
     val conf = new SparkConf().setAppName("Chicago Crime Dataset")
     val sc = new SparkContext(conf)
     val sqlContext = new SQLContext(sc)
+    import sqlContext.implicits._
 
     sqlContext.load("com.databricks.spark.csv", Map("path" -> crimeFile, "header" -> "true")).registerTempTable("crimes")
 
@@ -48,16 +50,34 @@ object GenerateCSVFiles {
     //    val schema = StructType(Seq("primaryType", "label").map(fieldName => StructField(fieldName, StringType, nullable = true)))
     //    sqlContext.createDataFrame(crimeTypes, schema).distinct.save (tmpFile, "com.databricks.spark.csv")
 
+//    sqlContext.
 
-    createFile(sqlContext.createDataFrame(sqlContext
-      .sql("select `Primary Type` as primaryType, 'CrimeType' AS label from crimes")
-      .map { case Row(primaryType: String, label: String) => CrimeType(primaryType.trim, label) }),
-      "tmp/crimeTypes.csv", "crimeType:ID(CrimeType),:LABEL")
+//    val rows = sqlContext.sql("select `Primary Type` as primaryType FROM crimes LIMIT 10")
+//
+//    rows.map { case Row(primaryType: String) => Row(primaryType.trim) }
+//
+//
+//
+//
+//
+//    createFile(
+//      rows.map { case Row(primaryType: String) => CrimeType(primaryType.trim) }.toDF(),
+//      "/tmp/crimeTypes.csv",
+//      "crimeType:ID(CrimeType)")
 
-    createFile(sqlContext.createDataFrame(sqlContext
-      .sql("select `Beat` as beat, 'Beat' AS label from crimes")
-      .map { case Row(beat: String, label: String) => Beat(beat, label) }),
-      "tmp/beats.csv", "id:ID(Beat),:LABEL")
+
+    val rows: Array[Row] = sqlContext.sql("select `FBI Code` AS fbiCode, COUNT(*) AS times FROM crimes GROUP BY `FBI Code` ORDER BY " +
+      "times DESC").collect()
+    rows.foreach(println)
+
+//    createFile(sqlContext.sql("select `Primary Type` as primaryType, 'CrimeType' AS label from crimes")
+//      .map { case Row(primaryType: String, label: String) => CrimeType(primaryType.trim, label) }.toDF(),
+//      "tmp/crimeTypes.csv", "crimeType:ID(CrimeType),:LABEL")
+//
+//    createFile(sqlContext.createDataFrame(sqlContext
+//      .sql("select `Beat` as beat, 'Beat' AS label from crimes")
+//      .map { case Row(beat: String, label: String) => Beat(beat, label) }),
+//      "tmp/beats.csv", "id:ID(Beat),:LABEL")
 //
 //    val crimeData = sc.textFile(crimeFile).cache()
 //    val withoutHeader: RDD[String] = dropHeader(crimeData)
